@@ -1,0 +1,164 @@
+.stats-page {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-bottom: 70px;
+}
+
+.stats-content {
+  padding: 16px;
+}
+
+.stats-summary {
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 12px;
+}
+
+.summary-card.main {
+  background: var(--primary-color);
+  color: white;
+}
+
+.summary-card .summary-label {
+  display: block;
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+.summary-card .summary-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.summary-card.main .summary-value {
+  color: white;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.chart-section {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.chart-container {
+  margin-top: 10px;
+}
+
+.empty-chart {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+.chart-legend {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-name {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.legend-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.category-breakdown {
+  margin-top: 24px;
+}
+
+.category-stat-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.category-indicator {
+  width: 4px;
+  height: 20px;
+  border-radius: 2px;
+  margin-right: 10px;
+}
+
+.category-stat-card .category-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.item-count {
+  font-size: 12px;
+  color: var(--text-light);
+  background: var(--bg-color);
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.category-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-row .stat-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.stat-row .stat-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.stat-row .stat-value.accent {
+  color: var(--accent-color);
+}
