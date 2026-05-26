@@ -7,10 +7,11 @@ import '../pages/Form.css';
 
 interface AddItemProps {
   categories: Category[];
+  userId: string;
   onSave: () => void;
 }
 
-export default function AddItem({ categories, onSave }: AddItemProps) {
+export default function AddItem({ categories, userId, onSave }: AddItemProps) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
@@ -22,32 +23,33 @@ export default function AddItem({ categories, onSave }: AddItemProps) {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.name.trim()) {
       newErrors.name = '请输入物品名称';
     }
-    
+
     const price = parseFloat(formData.purchasePrice);
     if (isNaN(price) || price <= 0) {
       newErrors.purchasePrice = '请输入有效的购买价格';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     addItem({
+      userId,
       name: formData.name.trim(),
       category: formData.category,
       purchasePrice: parseFloat(formData.purchasePrice),
       purchaseDate: formData.purchaseDate
     });
-    
+
     onSave();
   };
 

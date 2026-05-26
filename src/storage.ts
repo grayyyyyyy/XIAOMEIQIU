@@ -1,15 +1,20 @@
-import { AppData, Item, Category, DEFAULT_CATEGORIES, STORAGE_KEY, generateId } from './types';
+import { AppData, Item, Category, User, RememberMeData, DEFAULT_CATEGORIES, STORAGE_KEY, REMEMBER_ME_KEY, generateId } from './types';
 
 function getInitialData(): AppData {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      const data = JSON.parse(stored);
+      return {
+        ...data,
+        categories: data.categories || DEFAULT_CATEGORIES,
+        users: data.users || []
+      };
     } catch {
-      return { items: [], categories: DEFAULT_CATEGORIES };
+      return { items: [], categories: DEFAULT_CATEGORIES, users: [] };
     }
   }
-  return { items: [], categories: DEFAULT_CATEGORIES };
+  return { items: [], categories: DEFAULT_CATEGORIES, users: [] };
 }
 
 export function loadAppData(): AppData {
@@ -37,7 +42,7 @@ export function updateItem(id: string, updates: Partial<Item>): Item | null {
   const data = getInitialData();
   const index = data.items.findIndex(item => item.id === id);
   if (index === -1) return null;
-  
+
   data.items[index] = {
     ...data.items[index],
     ...updates,
@@ -51,7 +56,7 @@ export function deleteItem(id: string): boolean {
   const data = getInitialData();
   const index = data.items.findIndex(item => item.id === id);
   if (index === -1) return false;
-  
+
   data.items.splice(index, 1);
   saveAppData(data);
   return true;
@@ -82,7 +87,7 @@ export function updateCategory(id: string, updates: Partial<Category>): Category
   const data = getInitialData();
   const index = data.categories.findIndex(cat => cat.id === id);
   if (index === -1) return null;
-  
+
   data.categories[index] = { ...data.categories[index], ...updates };
   saveAppData(data);
   return data.categories[index];
@@ -92,7 +97,7 @@ export function deleteCategory(id: string): boolean {
   const data = getInitialData();
   const index = data.categories.findIndex(cat => cat.id === id);
   if (index === -1) return false;
-  
+
   data.categories.splice(index, 1);
   saveAppData(data);
   return true;
@@ -100,4 +105,66 @@ export function deleteCategory(id: string): boolean {
 
 export function clearAllData(): void {
   localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(REMEMBER_ME_KEY);
+  localStorage.removeItem('currentUserId');
+}
+
+export function addUser(name: string, password: string, color: string): User {
+  const data = getInitialData();
+  const newUser: User = {
+    id: generateId(),
+    name,
+    password,
+    color,
+    createdAt: new Date().toISOString()
+  };
+  data.users.push(newUser);
+  saveAppData(data);
+  return newUser;
+}
+
+export function getUserItems(userId: string): Item[] {
+  const data = getInitialData();
+  return data.items.filter(item => item.userId === userId);
+}
+
+export function getUserByName(name: string): User | undefined {
+  const data = getInitialData();
+  return data.users.find(user => user.name === name);
+}
+
+export function authenticate(name: string, password: string): User | null {
+  const data = getInitialData();
+  const user = data.users.find(u => u.name === name && u.password === password);
+  return user || null;
+}
+
+export function getCurrentUser(): User | null {
+  const currentUserId = localStorage.getItem('currentUserId');
+  if (!currentUserId) return null;
+
+  const data = getInitialData();
+  return data.users.find(user => user.id === currentUserId) || null;
+}
+
+export function setCurrentUser(userId: string): void {
+  localStorage.setItem('currentUserId', userId);
+}
+
+export function setRememberMe(data: RememberMeData): void {
+  localStorage.setItem(REMEMBER_ME_KEY, JSON.stringify(data));
+}
+
+export function getRememberMe(): RememberMeData | null {
+  const stored = localStorage.getItem(REMEMBER_ME_KEY);
+  if (!stored) return null;
+  try {
+    return JSON.parse(stored);
+  } catch {
+    return null;
+  }
+}
+
+export function clearRememberMe(): void {
+  localStorage.removeItem(REMEMBER_ME_KEY);
 }

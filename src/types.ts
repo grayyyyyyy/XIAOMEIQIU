@@ -1,5 +1,6 @@
 export interface Item {
   id: string;
+  userId: string;
   name: string;
   category: string;
   purchasePrice: number;
@@ -15,9 +16,23 @@ export interface Category {
   color: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  password: string;
+  color: string;
+  createdAt: string;
+}
+
 export interface AppData {
   items: Item[];
   categories: Category[];
+  users: User[];
+}
+
+export interface RememberMeData {
+  username: string;
+  password: string;
 }
 
 export const DEFAULT_CATEGORIES: Category[] = [
@@ -29,6 +44,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
 ];
 
 export const STORAGE_KEY = 'minimalist_inventory_app';
+export const REMEMBER_ME_KEY = 'minimalist_inventory_remember_me';
 
 export function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
