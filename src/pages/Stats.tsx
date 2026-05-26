@@ -22,7 +22,7 @@ export default function Stats({ items, categories, getCategoryName }: StatsProps
 
   useEffect(() => {
     const categoryDailyAverages: Record<string, number> = {};
-    
+
     items.forEach(item => {
       const dailyAverage = calculateDailyAverage(item);
       if (!categoryDailyAverages[item.category]) {
@@ -44,6 +44,16 @@ export default function Stats({ items, categories, getCategoryName }: StatsProps
 
     setChartData(data);
   }, [items, categories, getCategoryName]);
+
+  const sortedCategories = categories
+    .map(category => {
+      const categoryItems = items.filter(item => item.category === category.id);
+      const categoryPurchaseValue = categoryItems.reduce((sum, item) => sum + item.purchasePrice, 0);
+      const categoryDailyAverage = categoryItems.reduce((sum, item) => sum + calculateDailyAverage(item), 0);
+      return { ...category, categoryItems, categoryPurchaseValue, categoryDailyAverage };
+    })
+    .filter(cat => cat.categoryItems.length > 0)
+    .sort((a, b) => b.categoryDailyAverage - a.categoryDailyAverage);
 
   return (
     <div className="stats-page">
@@ -113,12 +123,8 @@ export default function Stats({ items, categories, getCategoryName }: StatsProps
 
         <div className="category-breakdown">
           <h2 className="section-title">分类明细</h2>
-          {categories.map(category => {
-            const categoryItems = items.filter(item => item.category === category.id);
-            const categoryPurchaseValue = categoryItems.reduce((sum, item) => sum + item.purchasePrice, 0);
-            const categoryDailyAverage = categoryItems.reduce((sum, item) => sum + calculateDailyAverage(item), 0);
-
-            return (
+          {sortedCategories.length > 0 ? (
+            sortedCategories.map(category => (
               <div key={category.id} className="category-stat-card">
                 <div className="category-header">
                   <span
@@ -126,21 +132,25 @@ export default function Stats({ items, categories, getCategoryName }: StatsProps
                     style={{ backgroundColor: category.color }}
                   />
                   <span className="category-name">{category.name}</span>
-                  <span className="item-count">{categoryItems.length}件</span>
+                  <span className="item-count">{category.categoryItems.length}件</span>
                 </div>
                 <div className="category-stats">
                   <div className="stat-row">
                     <span className="stat-label">日均价</span>
-                    <span className="stat-value accent">¥{formatCurrency(categoryDailyAverage)}</span>
+                    <span className="stat-value accent">¥{formatCurrency(category.categoryDailyAverage)}</span>
                   </div>
                   <div className="stat-row">
                     <span className="stat-label">购入总价</span>
-                    <span className="stat-value">¥{formatCurrency(categoryPurchaseValue)}</span>
+                    <span className="stat-value">¥{formatCurrency(category.categoryPurchaseValue)}</span>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            ))
+          ) : (
+            <div className="empty-chart">
+              <p>暂无分类数据</p>
+            </div>
+          )}
         </div>
       </div>
 
