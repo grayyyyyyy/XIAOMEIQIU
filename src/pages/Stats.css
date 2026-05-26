@@ -2,6 +2,7 @@
   min-height: 100vh;
   background: var(--bg-color);
   padding-bottom: 80px;
+  animation: fadeIn var(--transition-normal) ease;
 }
 
 .stats-content {
@@ -21,6 +22,12 @@
   padding: 20px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
+  transition: all var(--transition-normal);
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .summary-card.main {
@@ -101,9 +108,15 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
+  padding: 10px 14px;
   background: var(--bg-color);
   border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.legend-item:hover {
+  transform: translateX(4px);
+  background: rgba(99, 102, 241, 0.05);
 }
 
 .legend-color {
@@ -137,11 +150,13 @@
   margin-bottom: 12px;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
+  animation: fadeInUp var(--transition-normal) ease;
 }
 
 .category-stat-card:hover {
   box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .category-header {
@@ -183,6 +198,11 @@
   background: var(--bg-color);
   padding: 12px;
   border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.stat-row:hover {
+  background: rgba(99, 102, 241, 0.05);
 }
 
 .stat-row .stat-label {
