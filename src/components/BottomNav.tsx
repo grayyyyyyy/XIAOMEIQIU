@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import './BottomNav.css';
 
 interface BottomNavProps {
   currentTab: 'home' | 'categories' | 'stats';
