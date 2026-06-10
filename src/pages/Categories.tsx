@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Category, Item } from '../types';
 import { addCategory, deleteCategory } from '../storage';
 import BottomNav from '../components/BottomNav';

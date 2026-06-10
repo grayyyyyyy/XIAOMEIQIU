@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AppData, Item, Category, User, DEFAULT_CATEGORIES } from './types';
+import { AppData, Item, User, DEFAULT_CATEGORIES } from './types';
 import { loadAppData, getCurrentUser, clearRememberMe } from './storage';
 import Home from './pages/Home';
 import AddItem from './pages/AddItem';
@@ -86,7 +86,6 @@ function App() {
           <Route path="/" element={
             <Home
               items={getUserItems()}
-              categories={data.categories}
               totalItems={getUserItems().length}
               getCategoryName={getCategoryName}
               getCategoryColor={getCategoryColor}

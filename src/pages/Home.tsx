@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Item, Category, calculateDailyAverage, getDaysUsed, formatCurrency } from '../types';
+import { Item, calculateDailyAverage, getDaysUsed, formatCurrency } from '../types';
 import { deleteItem, deleteItems } from '../storage';
 import BottomNav from '../components/BottomNav';
 import '../pages/Home.css';
 
 interface HomeProps {
   items: Item[];
-  categories: Category[];
   totalItems: number;
   getCategoryName: (id: string) => string;
   getCategoryColor: (id: string) => string;
@@ -20,7 +19,6 @@ type SortType = 'date' | 'dailyAverage' | 'purchasePrice';
 
 export default function Home({
   items,
-  categories,
   totalItems,
   getCategoryName,
   getCategoryColor,
